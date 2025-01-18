@@ -47,5 +47,8 @@ jobs:
           docker rm forum || true
 
           # Запуск нового контейнера
-          docker run -d --name forum -p 80:80 -p 443:443 forum:latest
+          docker run -d --name forum \
+            -p 80:80 -p 443:443 \
+            -v /etc/letsencrypt/live/forum.qarjy.kz:/certs:ro \
+            forum:latest
         EOF
