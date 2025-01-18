@@ -17,24 +17,19 @@ import (
 	"golang.org/x/oauth2/google"
 )
 
-GoogleID := os.Getenv("GOOGLE_ID")
-GoogleSecret := os.Getenv("GOOGLE_SECRET")
-GitHubID := os.Getenv("GHUB_ID")
-GitHubSecret := os.Getenv("GHUB_SECRET")
-
 var emailRegex = regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
 var (
 	GoogleConfig = &oauth2.Config{
-		ClientID:     GoogleID,
-		ClientSecret: GoogleSecret,
+		ClientID:     os.Getenv("GOOGLE_ID"),
+		ClientSecret: os.Getenv("GOOGLE_SECRET"),
 		RedirectURL:  "https://forum.qarjy.kz/auth/google/callback",
 		Scopes:       []string{"https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"},
 		Endpoint:     google.Endpoint,
 	}
 
 	GitHubConfig = &oauth2.Config{
-		ClientID:     GitHubID,
-		ClientSecret: GitHubSecret,
+		ClientID:     os.Getenv("GHUB_ID"),
+		ClientSecret: os.Getenv("GHUB_SECRET"),
 		RedirectURL:  "https://forum.qarjy.kz/auth/github/callback",
 		Scopes:       []string{"read:user", "user:email"},
 		Endpoint:     github.Endpoint,
