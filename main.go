@@ -75,9 +75,9 @@ func main() {
 	// log.Println("Server started on http://localhost:8080")
 	// log.Fatal(http.ListenAndServe(":8080", nil))
 	// HTTPS server
-	log.Println("Starting server on https://localhost:8443")
+	log.Println("Starting server on https://localhost:8080")
 	err = http.ListenAndServeTLS(
-		":8443",
+		":8080",
 		"./certs/server.crt", // Path to SSL certificate
 		"./certs/server.key", // Path to SSL private key
 		secureMux,
