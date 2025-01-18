@@ -94,8 +94,8 @@ func main() {
 		log.Println("Starting HTTPS server on https://localhost:443...")
 		err := http.ListenAndServeTLS(
 			":443",
-			"/etc/letsencrypt/live/forum.qarjy.kz/fullchain.pem",
-			"/etc/letsencrypt/live/forum.qarjy.kz/privkey.pem",
+			"/certs/fullchain.pem",
+			"/certs/privkey.pem",
 			secureMux,
 		)
 		if err != nil {
