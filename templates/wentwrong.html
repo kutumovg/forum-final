@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/wentwrong.css">
+    <link rel="icon" type="image/x-icon" href="/ui/images/favicon.png">
+    <title>Forum</title>
+</head>
+<body>
+    <div class="error-container">
+        <h1>Error {{.StatusCode}}</h1>
+        <p>{{.StatusText}}</p>
+        <br>
+        <button onclick="history.back()">Go Back</button>
+    </div>
+</body>
+</html>

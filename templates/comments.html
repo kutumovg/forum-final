@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/comments.css">
+    <link rel="stylesheet" href="/ui/header.css">
+    <link rel="stylesheet" href="/ui/footer.css">
+    <link rel="icon" type="image/x-icon" href="/ui/images/favicon.png">
+    <title>Forum - Comments</title>
+</head>
+<body>
+    <div class="page-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="container">
+                <h1><a href="/">Book Forum</a></h1>
+                <nav>
+                    {{if .LoggedIn}}
+                        <div class="header-buttons">
+                            <button onclick="window.location.href='/logout'">Logout</button>
+                        </div>
+                    {{else}}
+                        <div class="header-buttons">
+                            <button onclick="window.location.href='/login'">Login</button>
+                            <button onclick="window.location.href='/register'">Register</button>
+                        </div>
+                    {{end}}
+                </nav>
+            </div>
+        </header>
+
+        <div class="main-layout container">
+            <main class="content">
+                <h2>Post:</h2>
+                <div class="post">
+                    {{if .Post.ImagePath}}
+                        <img src="/{{.Post.ImagePath}}" alt="Post Image" class="center">
+                    {{end}}
+                    <p>{{.Post.Content}}</p>
+                    <p>By <strong>{{.Post.Author}}</strong> on {{.Post.CreatedAtFormatted}}</p>
+                    <div class="post-tags">
+                        {{range .Post.Categories}}
+                        <span class="tag">{{.}}</span>
+                        {{end}}
+                    </div>
+                    {{if $.LoggedIn}}
+                    <p>
+                        <form action="/like" method="post" class="like-form">
+                            <input type="hidden" name="post_id" value="{{.Post.ID}}">
+                            <button type="submit" class="like-button">
+                                <img src="/ui/images/thumbs-up.png" alt="Like">
+                            </button>
+                        </form> {{.Post.Likes}}  
+                        <form action="/dislike" method="post" class="dislike-form">
+                            <input type="hidden" name="post_id" value="{{.Post.ID}}">
+                            <button type="submit" class="dislike-button">
+                                <img src="/ui/images/thumbs-down.png" alt="Dislike">
+                            </button>
+                        </form> {{.Post.Dislikes}}
+                    </p>
+                    {{else}}
+                    <p><img src="/ui/images/thumbs-up.png" alt="Like"> {{.Post.Likes}}       <img src="/ui/images/thumbs-down.png" alt="Dislike"> {{.Post.Dislikes}}</p>
+                    {{end}}
+                </div>
+                <h2>Comments:</h2>
+                {{range .Comments}}
+                <div class="comment-section" >           
+                    <p>{{.Content}}</p><br>
+                    <p>Comment by: <strong>{{.Author}}</strong></p><br>
+                    {{if $.LoggedIn}}
+                        <form action="/like_comment" method="post" style="display:inline;">
+                            <input type="hidden" name="comment_id" value="{{.ID}}">
+                            <input type="hidden" name="post_id" value="{{$.Post.ID}}">
+                            <button type="submit" class="like-button">
+                                <img src="/ui/images/thumbs-up.png" alt="Like">
+                            </button>
+                        </form> {{.Likes}} 
+
+                        <form action="/dislike_comment" method="post" style="display:inline;">
+                            <input type="hidden" name="comment_id" value="{{.ID}}">
+                            <input type="hidden" name="post_id" value="{{$.Post.ID}}">
+                            <button type="submit" class="dislike-button">
+                                <img src="/ui/images/thumbs-down.png" alt="Dislike">
+                            </button>
+                        </form> {{.Dislikes}}
+                    {{else}}
+                        <p><img src="/ui/images/thumbs-up.png" alt="Like"> {{.Likes}}       <img src="/ui/images/thumbs-down.png" alt="Dislike"> {{.Dislikes}}</p>
+                    {{end}}
+                    {{if $.IsAdminOrModerator}}
+                    <p><form action="/admin/delete_comment" method="POST" style="display: inline;">
+                        <input type="hidden" name="comment_id" value="{{.ID}}">
+                        <button class="admin_buttons" type="submit">Delete</button>
+                    </form></p>
+                    {{end}}
+                </div>
+                {{end}} <!-- End of comments range -->
+
+                <!-- Add Comment Form -->
+                
+                {{if .LoggedIn}}
+                    <h3>Add a Comment</h3>
+                    <div class="add-comment">
+                        <form action="/create_comment" method="post">
+                            <input type="hidden" name="post_id" value="{{.Post.ID}}">
+                            <textarea name="content" rows="4" cols="50" required></textarea><br>
+                            <button type="submit">Submit Comment</button>
+                        </form>
+                    </div>
+                {{else}}
+                    <p><a href="/login">Login to comment</a></p>
+                {{end}}
+
+                <button class="back-button" onclick="window.history.back();">Back</button>
+            </main>
+        </div>
+        <footer class="footer">
+            <p>&copy; 2024 Book Forum</p>
+        </footer>
+    </div>
+</body>
+</html>

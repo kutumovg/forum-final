@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/users.css">
+    <link rel="stylesheet" href="/ui/header.css">
+    <link rel="stylesheet" href="/ui/footer.css">
+    <link rel="icon" type="image/x-icon" href="/ui/images/favicon.png">
+    <title>Forum - Users</title>  
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1><a href="/">Book Forum</a></h1>
+            <nav>
+                <div class="header-buttons">
+                    <button onclick="window.location.href='/logout'">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="page-container">
+        <div class="main-content">
+            <div class="column">
+                <!-- Секция заявок -->
+                <section class="applications">
+                    {{range .Applications}}
+                    <h1>User requests for Moderator</h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td>{{.Username}}</td>
+                                <td>
+                                    <form action="/moderator/approve" method="POST" style="display: inline;">
+                                        <input type="hidden" name="user_id" value="{{.UserID}}">
+                                        <button type="submit" class="btn approve">Approve</button>
+                                    </form>
+                                    <form action="/moderator/reject" method="POST" style="display: inline;">
+                                        <input type="hidden" name="user_id" value="{{.UserID}}">
+                                        <button type="submit" class="btn reject">Reject</button>
+                                    </form>
+                                </td>
+                            </tr>
+                           
+                        </tbody>
+                    </table>
+                    <br>
+                    <br>
+                    <br>
+                    {{end}}
+                </section>
+        
+                <!-- Секция пользователей -->
+                <section class="users">
+                    <h2>Users</h2>
+                    <p>Press Promote/Demote buttons to promote or demote users to/from Moderator role</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{range .Moderators}}
+                            <tr>
+                                <td class="user">{{.Username}}</td>
+                                <td>{{.Role}}</td>
+                                <td>
+                                    <form method="post" action="/demote">
+                                        <input type="hidden" name="user_id" value="{{.ID}}">
+                                        <button type="submit">Demote</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {{end}}
+                            {{range .Users}}
+                            <tr>
+                                <td class="user">{{.Username}}</td>
+                                <td>{{.Role}}</td>
+                                <td>
+                                    <form method="post" action="/promote">
+                                        <input type="hidden" name="user_id" value="{{.ID}}">
+                                        <button type="submit">Promote</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {{end}}
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+            <div class="back-button">
+                <button onclick="window.history.back();">Back</button>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <p>&copy; 2024 Book Forum</p>
+        </footer>
+    </div>
+</body>
+</html>

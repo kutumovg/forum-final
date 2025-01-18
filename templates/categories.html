@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/categories.css">
+    <link rel="stylesheet" href="/ui/header.css">
+    <link rel="stylesheet" href="/ui/footer.css">
+    <link rel="icon" type="image/x-icon" href="/ui/images/favicon.png">
+    <title>Admin Panel - Categories</title>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1><a href="/">Book Forum</a></h1>
+            <nav>
+                <div class="header-buttons">
+                    <button onclick="window.location.href='/logout'">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="page-container">
+        <div class="main-content">
+            <h1>Manage Categories</h1>
+            <div class="form-row">
+                <!-- Add Category Form -->
+                <form action="/admin/categories/add" method="POST">
+                    <label for="name">Category Name:</label>
+                    <input type="text" id="name" name="name" required>
+                    <button type="submit">Add Category</button>
+                </form>
+
+                <!-- Update Category Form -->
+                <form action="/admin/categories/update" method="POST">
+                    <label for="update-id">Category ID:</label>
+                    <input type="number" id="update-id" name="id" required>
+                    <label for="update-name">New Name:</label>
+                    <input type="text" id="update-name" name="name" required>
+                    <button type="submit">Update Category</button>
+                </form>
+
+                <!-- Delete Category Form -->
+                <form action="/admin/categories/delete" method="POST">
+                    <label for="delete-id">Category ID:</label>
+                    <input type="number" id="delete-id" name="id" required>
+                    <button type="submit">Delete Category</button>
+                </form>
+            </div>
+
+            <!-- Categories List -->
+            <h2>List of Categories</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>18+</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .Categories}}
+                    <tr>
+                        <td>{{.ID}}</td>
+                        <td class="cat_name">{{.Name}}</td>
+                        <td>{{if .IsControversial}}Yes{{else}}No{{end}}</td>
+                        <td>
+                            <form action="/admin/categories/controversial" method="POST">
+                                <input type="hidden" name="category_id" value="{{.ID}}">
+                                <input type="hidden" name="is_controversial" value="{{if .IsControversial}}false{{else}}true{{end}}">
+                                <button type="submit">
+                                    {{if .IsControversial}}Unset Controversial{{else}}Set Controversial{{end}}
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+            <div class="back-button">
+                <button onclick="window.history.back();">Back</button>
+            </div>
+        </div>
+        <footer class="footer">
+            <p>&copy; 2024 Book Forum</p>
+        </footer>
+    </div>
+</body>
+</html>

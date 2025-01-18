@@ -1,0 +1,151 @@
+/* Reset and Base Styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f1f2f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  color: #333;
+}
+
+/* Register Container */
+.register-container {
+  background-color: #ffffff;
+  padding: 20px 30px;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.register-container h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+}
+
+/* Form Styling */
+.register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-form label {
+  text-align: left;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.register-form input[type="email"],
+.register-form input[type="text"],
+.register-form input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.register-form button {
+  background-color: #0073cc;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.register-form button:hover {
+  background-color: #005fa3;
+}
+
+.oauth-buttons {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.oauth-button {
+  display: inline-flex; /* Use flexbox for proper alignment */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-decoration: none;
+  color: white;
+  width: 100%;
+}
+
+.oauth-button img {
+  width: 20px; /* Set the size of the logo */
+  height: 20px;
+  margin-right: 10px; /* Add spacing between logo and text */
+  vertical-align: middle; /* Align logo vertically */
+  filter:  brightness(0) invert(1);
+}
+
+.oauth-button.google {
+  background-color: #db4437; /* Google Red */
+}
+
+.oauth-button.github {
+  background-color: #333; /* GitHub Black */
+}
+
+.oauth-button:hover {
+  opacity: 0.9;
+}
+
+/* Login Link */
+.login-link {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.login-link a {
+  color: #0073cc;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Back Button */
+.back-button {
+  margin-top: 20px;
+}
+
+.back-button button {
+  background-color: #0073cc;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-button button:hover {
+  background-color: #005fa3;
+}

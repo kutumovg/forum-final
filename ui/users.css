@@ -1,0 +1,112 @@
+/* Общие стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    background-color: #f4f4f9; /* Лёгкий фон */
+}
+
+.container {
+    /* width: 90%; */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    gap: 20px;
+}
+
+.column {
+    flex: 1;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.column h2, .column h1 {
+    margin-bottom: 15px;
+    text-align: center;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.column p {
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+table th, table td {
+    text-align: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #333;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.user {
+    text-align: left;
+}
+button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #0073cc;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #005fa3;
+}
+
+/* Back Button */
+.back-button {
+    display: flex;
+    justify-content: center; 
+}
+  
+.back-button button {
+background-color: #0073cc;
+color: white;
+border: none;
+padding: 8px 12px;
+border-radius: 5px;
+cursor: pointer;
+}
+
+.back-button button:hover {
+background-color: #005fa3;
+}

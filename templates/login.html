@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum - Login</title>
+    <link rel="stylesheet" href="/ui/login.css">
+    <link rel="icon" type="image/x-icon" href="/ui/images/favicon.png">
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+        
+        {{if .Error}}
+            <p class="error-message">{{.Error}}</p>
+        {{end}}
+        
+        <form action="/login" method="post" class="login-form">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Login</button>
+        </form>
+        <br>
+        <p>Or login with:</p>
+        <div class="oauth-buttons">
+            <!-- Google Button -->
+            <a href="/auth/google/login" class="oauth-button google">
+                <img src="/ui/images/google-logo.png" alt="Google Logo">
+                Google
+            </a>
+            
+            <!-- GitHub Button -->
+            <a href="/auth/github/login" class="oauth-button github">
+                <img src="/ui/images/github-logo.png" alt="GitHub Logo">
+                GitHub
+            </a>
+        </div>
+
+        <p class="register-link">Not registered? <a href="/register">Sign up</a></p>
+
+        <!-- Back button to return to the main page -->
+        <div class="back-button">
+            <button onclick="window.history.back();">Back</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/index.css">
+    <link rel="stylesheet" href="/ui/header.css">
+    <link rel="stylesheet" href="/ui/footer.css">
+    <link rel="icon" type="image/x-icon" href="/ui/images/favicon.png">
+    <title>Forum - Posts</title>  
+</head>
+<body>
+    <div class="page-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="container">
+                <h1><a href="/">Book Forum</a></h1>
+                <nav>
+                    {{if .LoggedIn}}
+                        <div class="header-buttons">
+                            <button onclick="window.location.href='/logout'">Logout</button>
+                        </div>
+                    {{else}}
+                        <div class="header-buttons">
+                            <button onclick="window.location.href='/login'">Login</button>
+                            <button onclick="window.location.href='/register'">Register</button>
+                        </div>
+                    {{end}}
+                </nav>
+            </div>
+        </header>
+           
+        <div class="main-layout container">
+            <main class="my_content"> 
+                <h2>Total posts: {{len .Posts}}</h2>
+                {{if .Posts}}
+                    {{range .Posts}}
+                    <div class="post">
+                        {{if .ImagePath}}
+                            <img src="/{{.ImagePath}}" alt="Post Image" class="center">
+                        {{end}}
+                        <p>{{.Content}}</p>
+                        <p>By <strong>{{.Author}}</strong> on {{.CreatedAtFormatted}}</p>
+                        <div class="post-tags">
+                            {{range .Categories}}
+                            <span class="tag">{{.}}</span>
+                            {{end}}
+                        </div>
+                        {{if $.IsApproved}}
+                            {{if $.LoggedIn}}
+                            <p>
+                                <form action="/like" method="post" class="like-form">
+                                    <input type="hidden" name="post_id" value="{{.ID}}">
+                                    <button type="submit" class="like-button">
+                                        <img src="/ui/images/thumbs-up.png" alt="Like">
+                                    </button>
+                                </form> {{.Likes}}  
+                                <form action="/dislike" method="post" class="dislike-form">
+                                    <input type="hidden" name="post_id" value="{{.ID}}">
+                                    <button type="submit" class="dislike-button">
+                                        <img src="/ui/images/thumbs-down.png" alt="Dislike">
+                                    </button>
+                                </form> {{.Dislikes}}
+                            </p>
+                            {{else}}
+                            <p><img src="/ui/images/thumbs-up.png" alt="Like"> {{.Likes}}       <img src="/ui/images/thumbs-down.png" alt="Dislike"> {{.Dislikes}}</p>
+                            {{end}}
+                            <p><a href="/post?id={{.ID}}" class="read-more">View Comments ({{.CommentCount}})</a></p>
+                        {{else}}
+                        <div class="btns">
+                            <form action="/admin/delete_post" method="POST" style="display: inline;">
+                                <input type="hidden" name="post_id" value="{{.ID}}">
+                                <button class="admin_buttons" type="submit">Delete</button>
+                            </form>
+                            <form action="/admin/approve" method="POST">
+                                <input type="hidden" name="post_id" value="{{.ID}}">
+                                <button class="approve_btn" type="submit">Approve</button>
+                            </form>
+                        </div>
+                        {{end}}
+                    </div> 
+                    {{end}}
+                {{else}}
+                    <p>No posts available.</p>
+                {{end}}
+                <div class="back-button">
+                    <button onclick="window.history.back();">Back</button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2024 Book Forum</p>
+        </footer>
+    </div>
+</body>
+</html>

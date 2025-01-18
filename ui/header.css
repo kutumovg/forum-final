@@ -1,0 +1,40 @@
+/* Header */
+.header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+.header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.header nav {
+    display: flex;
+    gap: 15px;
+}
+
+.header-buttons button {
+    background-color: #0073cc;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.header-buttons button:hover {
+    background-color: #005fa3;
+}
+
+.header a {
+    color: white;
+    text-decoration:none;
+}

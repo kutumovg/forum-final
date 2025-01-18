@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum - Apply for Moderator</title>
+    <link rel="stylesheet" href="/ui/moderator.css">
+    <link rel="stylesheet" href="/ui/header.css">
+    <link rel="stylesheet" href="/ui/footer.css">
+    <link rel="icon" type="image/x-icon" href="/ui/images/favicon.png">
+</head>
+<body>
+    <div class="page_container">
+        <header class="header">
+            <div class="container">
+                <h1><a href="/">Book Forum</a></h1>
+                <nav>
+                    {{if .LoggedIn}}
+                        <div class="header-buttons">
+                            <button onclick="window.location.href='/logout'">Logout</button>
+                        </div>
+                    {{else}}
+                        <div class="header-buttons">
+                            <button onclick="window.location.href='/login'">Login</button>
+                            <button onclick="window.location.href='/register'">Register</button>
+                        </div>
+                    {{end}}
+                </nav>
+            </div>
+        </header>
+        <div class="main-layout container">
+            <main class="content">
+                <section class="motivational-text">
+                    <h1>Apply to Become a Moderator</h1>
+                    <p>
+                        Are you passionate about books and literature? Do you enjoy engaging with a vibrant community of like-minded individuals? 
+                        Becoming a moderator on our platform is your chance to make a meaningful impact! As a moderator, you will have the opportunity to:
+                    </p>
+                    <ul>
+                        <li>Help maintain a welcoming and respectful community.</li>
+                        <li>Foster engaging discussions about books and literary works.</li>
+                        <li>Shape the future of our forum by contributing your unique perspective.</li>
+                    </ul>
+                    <p>
+                        If you love literature and want to contribute to our growing community, we invite you to apply to become a moderator today. 
+                        Your passion and dedication can make a difference!
+                    </p>
+                </section>
+
+                <section class="application-status">
+                    {{if .ApplicationSubmitted}}
+                        <p>Your application status: <strong>{{.ApplicationStatus}}</strong></p>
+                        <form action="/apply_moderator" method="POST">
+                            <div class="form-group">
+                                <button type="submit" class="btn">Cancel Application</button>
+                            </div>
+                        </form>
+                    {{else}}
+                        <p>Your application status: <strong>{{.ApplicationStatus}}</strong></p>
+                        <form action="/apply_moderator" method="POST">
+                            <div class="form-group">
+                                <button type="submit" class="btn">Apply Now</button>
+                            </div>
+                        </form>
+                    {{end}}
+                </section>
+            </main>
+        </div>
+        <footer class="footer">
+            <p>&copy; 2024 Book Forum</p>
+        </footer>
+    </div>
+</body>
+</html>

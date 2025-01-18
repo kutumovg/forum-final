@@ -1,0 +1,211 @@
+/* Reset and Basic Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Full viewport height */
+}
+
+body {
+    background-color: #f1f2f3;
+    color: #333;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Main Layout */
+.main-layout {
+    display: flex;
+    flex: 1; /* Expands to fill available space, pushing footer down */
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.content {
+    width: 60%;
+    margin-left: 20%;
+}
+
+.post {
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    overflow-wrap: break-word;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /* width: 50%; */
+    max-height: 250px;
+}
+
+.post h3 {
+    color: #0073cc;
+}
+
+.post p {
+    margin: 10px 0;
+}
+
+.post form {
+    display: inline-block;
+}
+
+.post a {
+    color: #0073cc;
+    text-decoration: none;
+}
+
+.post a:hover {
+    text-decoration: underline;
+}
+
+.post .read-more {
+    color: #0073cc;
+    text-decoration: none;
+}
+
+.post-tags {
+    margin-top: 10px;
+}
+
+.tag {
+    display: inline-block;
+    background-color: #e1ecf4;
+    color: #39739d;
+    padding: 3px 8px;
+    margin-right: 5px;
+    font-size: 12px;
+    border-radius: 3px;
+}
+
+/* Comments Section */
+.comment-section {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    overflow-wrap: break-word;
+}
+
+.comment-section h2 {
+    font-size: 20px;
+    color: #0073cc;
+    margin-bottom: 10px;
+}
+
+.comment {
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    
+}
+
+.comment strong {
+    font-weight: bold;
+}
+
+.comment p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+/* Like and Dislike Buttons for Comments */
+.like-button, .dislike-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #0073cc;
+    font-size: 14px;
+    padding: 0;
+    margin-right: 5px;
+}
+
+.notification {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.admin_buttons {
+    margin: 5px;
+    margin-top: 15px;
+    padding: 8px 12px;
+    background-color: #dd1a1a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.admin_buttons:hover {
+    background-color: #e60000;
+}
+
+.admin_buttons form {
+    display: inline-block;
+}
+
+.add-comment textarea {
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.add-comment button {
+    background-color: #0073cc;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 15px 0;
+    float: right;
+}
+
+.add-comment button:hover {
+    background-color: #005fa3;
+}
+
+/* Back Button */
+.back-button {
+    display: inline-block;
+    margin: 15px 0;
+    background-color: #0073cc;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
+.back-button button:hover {
+    background-color: #005fa3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        width: 100%;
+    }
+}

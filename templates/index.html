@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/index.css">
+    <link rel="stylesheet" href="/ui/header.css">
+    <link rel="stylesheet" href="/ui/footer.css">
+    <link rel="icon" type="image/x-icon" href="/ui/images/favicon.png">
+    <title>Forum - Home</title>
+</head>
+<body>
+    <div class="page-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="container">
+                <h1><a href="/">Book Forum</a></h1>
+                <nav>
+                    {{if .LoggedIn}}
+                        <div class="header-buttons">
+                            <button onclick="window.location.href='/logout'">Logout</button>
+                        </div>
+                    {{else}}
+                        <div class="header-buttons">
+                            <button onclick="window.location.href='/login'">Login</button>
+                            <button onclick="window.location.href='/register'">Register</button>
+                        </div>
+                    {{end}}
+                </nav>
+            </div>
+        </header>
+        
+        <!-- Main Layout -->
+        <div class="main-layout container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                {{if .LoggedIn}}
+                    <p>Hello, {{.Username}}!</p>
+                {{else}}
+                    <p>Hello, Guest!</p>
+                {{end}}
+                <br>
+                <h2>Filter categories</h2>
+                <form method="get" action="/">
+                    <select id="category" name="category" onchange="this.form.submit()">
+                        <option value="">All Categories</option>
+                        {{range .Categories}}
+                            <option value="{{.ID}}" {{if eq .ID $.SelectedCategory}}selected{{end}}>{{.Name}}</option>
+                        {{end}}
+                    </select>
+                </form>
+                <br>        
+                {{if .LoggedIn}}
+                    <h2>Menu</h2>
+                    <nav>
+                        <ul>
+                            <li>
+                                <a href="/my_posts">
+                                    <img src="/ui/images/posts-icon.png" alt="My Posts Icon"> My Posts
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/liked_posts">
+                                    <img src="/ui/images/liked-icon.png" alt="Liked Posts Icon"> Liked Posts
+                                </a>
+                            </li>
+                            {{if not .IsAdminOrModerator}}
+                            <li>
+                                <a href="/moderator">
+                                    <img src="/ui/images/new-post.png" alt="New Post Icon"> Become a Moderator
+                                </a>
+                            </li>
+                            {{end}}
+                            {{if .IsAdmin}}
+                            <li>
+                                <a href="/admin/categories">
+                                    <img src="/ui/images/tag.png" alt="New Post Icon"> Categories
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/pending">
+                                    <img src="/ui/images/file.png" alt="New Post Icon"> Reports ({{.ReportCount}})
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/users">
+                                    <img src="/ui/images/user.png" alt="New Post Icon"> Users ({{.ApplicationCount}})
+                                </a>
+                            </li>
+                            {{end}}
+                            <br>
+                            <br>
+                            <br>
+                        </ul>
+                    </nav>
+                    <div class="button-container">
+                        <a href="/new_post" class="button">
+                            <img src="/ui/images/new-post.png" alt="New Post Icon">
+                            Create Post
+                        </a>
+                    </div>
+                {{end}}
+            </aside>
+
+            <!-- Main Content -->
+            <main class="content">        
+                <h2>Posts</h2>
+                {{if .Posts}}
+                    {{range .Posts}} 
+                    <div class="post">
+                        {{if .ImagePath}}
+                            <img src="/{{.ImagePath}}" alt="Post Image" class="center">
+                        {{end}}
+                        <p>{{.Content}}</p>
+                        <p>By <strong>{{.Author}}</strong> on {{.CreatedAtFormatted}}</p>
+                        <div class="post-tags">
+                            {{range .Categories}}
+                            <span class="tag">{{.}}</span>
+                            {{end}}
+                        </div>
+                        {{if $.LoggedIn}}
+                        <p>
+                            <form action="/like" method="post" class="like-form">
+                                <input type="hidden" name="post_id" value="{{.ID}}">
+                                <button type="submit" class="like-button">
+                                    <img src="/ui/images/thumbs-up.png" alt="Like">
+                                </button>
+                            </form>  {{.Likes}} 
+                            <form action="/dislike" method="post" class="dislike-form">
+                                <input type="hidden" name="post_id" value="{{.ID}}">
+                                <button type="submit" class="dislike-button">
+                                    <img src="/ui/images/thumbs-down.png" alt="Dislike">
+                                </button>
+                            </form> {{.Dislikes}}
+                        </p>
+                        {{else}}
+                        <p><img src="/ui/images/thumbs-up.png" alt="Like"> {{.Likes}}       <img src="/ui/images/thumbs-down.png" alt="Dislike"> {{.Dislikes}}</p>
+                        {{end}}
+                        {{if $.IsAdminOrModerator}}
+                        <form action="/admin/delete_post" method="POST" style="display: inline;">
+                            <input type="hidden" name="post_id" value="{{.ID}}">
+                            <button class="admin_buttons" type="submit">Delete</button>
+                        </form>
+                        <form action="/admin/unapprove" method="POST" style="display: inline;">
+                            <input type="hidden" name="post_id" value="{{.ID}}">
+                            <button class="admin_buttons" type="submit">Report</button>
+                        </form>
+                        {{end}}
+                        <p><a href="/post?id={{.ID}}" class="read-more">View Comments ({{.CommentCount}})</a></p>
+                    </div>
+                    {{end}} 
+                {{else}}
+                    <p>No posts available.</p>
+                {{end}}
+            </main>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2024 Book Forum</p>
+        </footer>
+    </div>
+</body>
+</html>

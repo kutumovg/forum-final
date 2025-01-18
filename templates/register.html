@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/register.css">
+    <link rel="icon" type="image/x-icon" href="/ui/images/favicon.png">
+    <title>Forum - Registration</title>
+</head>
+<body>
+    <div class="register-container">
+        <h1>Register</h1>
+        
+        {{if .Error}}
+            <p class="error-message">{{.Error}}</p>
+        {{end}}
+        
+        <form action="/register" method="post" class="register-form">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Register</button>
+        </form>
+        <br>
+        <p>Or register with:</p>
+        <div class="oauth-buttons">
+            <!-- Google Button -->
+            <a href="/auth/google/login" class="oauth-button google">
+                <img src="/ui/images/google-logo.png" alt="Google Logo">
+                Google
+            </a>
+            
+            <!-- GitHub Button -->
+            <a href="/auth/github/login" class="oauth-button github">
+                <img src="/ui/images/github-logo.png" alt="GitHub Logo">
+                GitHub
+            </a>
+        </div>
+
+        <p class="login-link">Already registered? <a href="/login">Sign in</a></p>
+
+        <!-- Back button to return to the main page -->
+        <div class="back-button">
+            <button onclick="window.history.back();">Back</button>
+        </div>
+    </div>
+</body>
+</html>
