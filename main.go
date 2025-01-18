@@ -73,8 +73,9 @@ func main() {
 	wrappedMux.HandleFunc("/auth/google/callback", handlers.GoogleCallbackHandler)
 	wrappedMux.HandleFunc("/auth/github/login", handlers.GitHubLoginHandler)
 	wrappedMux.HandleFunc("/auth/github/callback", handlers.GitHubCallbackHandler)
-	wrappedMux.Handle("/ui/", http.StripPrefix("/ui/", http.FileServer(http.Dir("./ui"))))
-	wrappedMux.Handle("/uploads/", http.StripPrefix("/uploads/", http.FileServer(http.Dir("uploads"))))
+	
+	http.Handle("/ui/", http.StripPrefix("/ui/", http.FileServer(http.Dir("./ui"))))
+	http.Handle("/uploads/", http.StripPrefix("/uploads/", http.FileServer(http.Dir("uploads"))))
 
 	secureMux := RateLimiter(wrappedMux)
 
