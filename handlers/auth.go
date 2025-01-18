@@ -20,17 +20,17 @@ import (
 var emailRegex = regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
 var (
 	GoogleConfig = &oauth2.Config{
-		ClientID:     "1077248033717-r7p32kbubqq89quoldvpjkgo1mc6kbvh.apps.googleusercontent.com",
-		ClientSecret: "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",
-		RedirectURL:  "http://localhost:8080/auth/google/callback",
+		ClientID:     ${{ secrets.GOOGLE_ID }},
+		ClientSecret: ${{ secrets.GOOGLE_SECRET }},
+		RedirectURL:  "https://forum.qarjy.kz/auth/google/callback",
 		Scopes:       []string{"https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"},
 		Endpoint:     google.Endpoint,
 	}
 
 	GitHubConfig = &oauth2.Config{
-		ClientID:     "Ov23lihVeUuvW4SJS6Ej",
-		ClientSecret: "6953e482b82cfbfc48fbfbf84c5bae771ba3e757",
-		RedirectURL:  "http://localhost:8080/auth/github/callback",
+		ClientID:     ${{ secrets.GHUB_ID }},
+		ClientSecret: ${{ secrets.GHUB_SECRET }},
+		RedirectURL:  "https://forum.qarjy.kz/auth/github/callback",
 		Scopes:       []string{"read:user", "user:email"},
 		Endpoint:     github.Endpoint,
 	}
