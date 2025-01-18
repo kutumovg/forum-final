@@ -39,12 +39,7 @@ jobs:
     - name: Deploy Docker container on EC2
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@ec2-13-60-56-183.eu-north-1.compute.amazonaws.com << 'EOF'
-          # Загрузка Docker-образа
-          export GOOGLE_ID=${{ secrets.GOOGLE_ID }}
-          export GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }}
-          export GHUB_ID=${{ secrets.GHUB_ID }}
-          export GHUB_SECRET=${{ secrets.GHUB_SECRET }}
-          
+          # Загрузка Docker-образа       
           docker load -i /home/ubuntu/forum.tar
 
           # Остановка текущего контейнера
@@ -54,6 +49,10 @@ jobs:
           # Запуск нового контейнера
           docker run -d --name forum \
             -p 80:80 -p 443:443 \
+            -e GOOGLE_ID=${{ secrets.GOOGLE_ID }} \
+            -e GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }} \
+            -e GHUB_ID=${{ secrets.GHUB_ID }} \
+            -e GHUB_SECRET=${{ secrets.GHUB_SECRET }} \
             -v /home/ubuntu/certs:/certs:ro \
             forum:latest
         EOF
