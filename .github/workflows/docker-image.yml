@@ -1,0 +1,51 @@
+name: Deploy Docker to EC2 without repository
+
+on:
+  push:
+    branches:
+      - main  # Запускать workflow при пуше в main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Шаг 1: Клонирование репозитория
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Шаг 2: Установка SSH-агента
+    - name: Setup SSH agent
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+    # Шаг 3: Сборка Docker-образа
+    - name: Build Docker image
+      run: |
+        docker build -t forum:latest .
+
+    # Шаг 4: Сохранение Docker-образа в файл
+    - name: Save Docker image to tar file
+      run: |
+        docker save forum:latest -o forum.tar
+
+    # Шаг 5: Передача Docker-образа на EC2
+    - name: Copy Docker image to EC2
+      run: |
+        scp -o StrictHostKeyChecking=no forum.tar ubuntu@ec2-13-60-56-183.eu-north-1.compute.amazonaws.com:/home/ubuntu/
+
+    # Шаг 6: Деплой на EC2
+    - name: Deploy Docker container on EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no ubuntu@ec2-13-60-56-183.eu-north-1.compute.amazonaws.com << 'EOF'
+          # Загрузка Docker-образа
+          docker load -i /home/ubuntu/forum.tar
+
+          # Остановка текущего контейнера
+          docker stop forum || true
+          docker rm forum || true
+
+          # Запуск нового контейнера
+          docker run -d --name forum -p 80:8080 forum:latest
+        EOF
