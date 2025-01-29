@@ -1,0 +1,110 @@
+/* Reset and Basic Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Full viewport height */
+}
+
+body {
+    background-color: #f1f2f3;
+    color: #333;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Main Layout */
+.main-layout {
+    display: flex;
+    flex: 1; /* Expands to fill available space, pushing footer down */
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.content {
+    width: 60%;
+    margin-left: 20%;
+}
+
+.post {
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    overflow-wrap: break-word;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /* width: 50%; */
+    max-height: 250px;
+}
+
+.post h3 {
+    color: #0073cc;
+}
+
+.post p {
+    margin: 10px 0;
+}
+
+.post form {
+    display: inline-block;
+}
+
+.post a {
+    color: #0073cc;
+    text-decoration: underline;
+}
+
+.notification-new {
+    background-color: #f9f9f9; /* Светло-серый фон */
+    border-left: 4px solid #0073cc; /* Синий индикатор */
+    padding: 1px 10px;
+}
+
+.notification-read {
+    background-color: #ffffff; /* Белый фон */
+    padding: 1px 10px;
+}
+
+/* Back Button */
+.back-button {
+    display: flex;
+    justify-content: center; 
+}
+  
+.back-button button {
+background-color: #0073cc;
+color: white;
+border: none;
+padding: 8px 12px;
+border-radius: 5px;
+cursor: pointer;
+margin-bottom: 20px;
+}
+
+.back-button button:hover {
+background-color: #005fa3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content {
+        width: 100%;
+        margin-left: 0;
+    }
+}

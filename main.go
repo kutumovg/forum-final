@@ -78,7 +78,11 @@ func main() {
 	rateLimitedMux.HandleFunc("/auth/google/callback", handlers.GoogleCallbackHandler)
 	rateLimitedMux.HandleFunc("/auth/github/login", handlers.GitHubLoginHandler)
 	rateLimitedMux.HandleFunc("/auth/github/callback", handlers.GitHubCallbackHandler)
-	
+	rateLimitedMux.HandleFunc("/notifications", handlers.ShowNotificationsHandler)
+	rateLimitedMux.HandleFunc("/my_comments", handlers.MyCommentsPageHandler)
+	rateLimitedMux.HandleFunc("/edit-post", handlers.EditPostHandler)
+	rateLimitedMux.HandleFunc("/edit-comment", handlers.EditCommentHandler)
+
 	wrappedMux.Handle("/", RateLimiter(rateLimitedMux))
 
 	go func() {
@@ -99,4 +103,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to start HTTP redirect server: %v", err)
 	}
+	// log.Println("Server started on http://localhost:8080")
+	// log.Fatal(http.ListenAndServe(":8080", wrappedMux))
 }

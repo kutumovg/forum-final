@@ -62,10 +62,13 @@ func MainPageHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorHandler(w, r, http.StatusInternalServerError, "Failed to fetch moderator applications")
 		return
 	}
-	// Check if there is a notification query parameter
-	// notification := r.URL.Query().Get("notification")
 
-	// Load the index.html template
+	notificationCount, err := models.GetNotificationCount(userID)
+	if err != nil {
+		ErrorHandler(w, r, http.StatusInternalServerError, "Failed to fetch notifications count")
+		return
+	}
+
 	tmpl, err := template.ParseFiles("templates/index.html")
 	if err != nil {
 		ErrorHandler(w, r, http.StatusInternalServerError, "Error loading template")
@@ -81,23 +84,23 @@ func MainPageHandler(w http.ResponseWriter, r *http.Request) {
 		Categories []models.Category
 		LoggedIn   bool
 		Username   string
-		// Notification       string
 		SelectedCategory   int
 		IsAdminOrModerator bool
 		IsAdmin            bool
 		ReportCount        int
 		ApplicationCount   int
+		NotificationCount int
 	}{
 		Posts:      posts,
 		Categories: categories,
 		LoggedIn:   loggedIn,
 		Username:   username,
-		// Notification:       notification,
 		SelectedCategory:   categoryID,
 		IsAdminOrModerator: isAdminOrModerator,
 		IsAdmin:            isAdmin,
 		ReportCount:        len(pending_posts),
 		ApplicationCount:   len(applications),
+		NotificationCount: notificationCount,
 	}
 
 	err = tmpl.Execute(w, data)

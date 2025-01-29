@@ -23,6 +23,26 @@ type Comment struct {
 	UserHasDisliked    bool   // Whether the logged-in user has disliked this comment
 }
 
+type UserActivity struct {
+	CommentsByPost []Post
+}
+
+// type UserComment struct {
+// 	CommentID                 string
+// 	CommentContent            string
+// 	CommentCreatedAt          time.Time
+// 	CommentCreatedAtFormatted string
+// 	PostID                    string
+// 	PostContent               string
+// 	PostCreatedAt             time.Time
+// 	PostCreatedAtFormatted    string
+// 	PostLikes                 int
+// 	PostDislikes              int
+// 	PostAuthor                string
+// 	PostCategories            []string
+// 	PostImagePath             string
+// }
+
 func CreateComment(postID, userID, content string) error {
 	commentID, err := uuid.NewV4()
 	if err != nil {
@@ -143,6 +163,74 @@ func GetCommentsForPost(postID string) ([]Comment, error) {
 	return comments, nil
 }
 
+func GetCommentsByUser(userID string) ([]Post, error) {
+	const query = `
+	SELECT 
+		posts.id AS post_id,
+		posts.content AS post_content,
+		comments.id AS comment_id,
+		comments.content AS comment_content,
+		comments.created_at AS comment_created_at,
+		comments.likes AS comment_likes,
+		comments.dislikes AS comment_dislikes
+	FROM comments
+	JOIN posts ON comments.post_id = posts.id
+	JOIN users ON posts.user_id = users.id
+	WHERE comments.user_id = ?
+	ORDER BY comments.created_at DESC;
+	`
+
+	rows, err := db.Query(query, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	// Use a map to group comments by post
+	groupMap := make(map[string]*Post)
+
+	for rows.Next() {
+		var postID, commentID string
+		var commentLikes, commentDislikes int
+		var commentCreatedAt time.Time
+		var postContent, commentContent template.HTML
+
+		if err := rows.Scan(&postID, &postContent, &commentID, &commentContent, &commentCreatedAt, &commentLikes, &commentDislikes); err != nil {
+			return nil, err
+		}
+
+		commentCreatedAtFormatted := commentCreatedAt.Format("02.01.2006 15:04")
+		postContent = template.HTML(strings.ReplaceAll(string(postContent), "\n", "<br>"))
+		commentContent = template.HTML(strings.ReplaceAll(string(commentContent), "\n", "<br>"))
+
+		// Check if the post is already in the map
+		if _, exists := groupMap[postID]; !exists {
+			groupMap[postID] = &Post{
+				ID:       postID,
+				Content:  postContent,
+				Comments: []Comment{},
+			}
+		}
+
+		// Add the comment to the corresponding post group
+		groupMap[postID].Comments = append(groupMap[postID].Comments, Comment{
+			ID:                 commentID,
+			Content:            commentContent,
+			CreatedAtFormatted: commentCreatedAtFormatted,
+			Likes:              commentLikes,
+			Dislikes:           commentDislikes,
+		})
+	}
+
+	// Convert the map to a slice
+	var groupedComments []Post
+	for _, group := range groupMap {
+		groupedComments = append(groupedComments, *group)
+	}
+
+	return groupedComments, nil
+}
+
 func SanitizeInput(input string) string {
 	// input = html.UnescapeString(input)
 	// input = strings.ReplaceAll(input, "<br>", "")
@@ -163,7 +251,33 @@ func DeleteComment(commentID string) error {
 }
 
 func GetCommentCount(postID string) (int, error) {
-    var count int
-    err := db.QueryRow("SELECT COUNT(*) FROM comments WHERE post_id = ?", postID).Scan(&count)
-    return count, err
+	var count int
+	err := db.QueryRow("SELECT COUNT(*) FROM comments WHERE post_id = ?", postID).Scan(&count)
+	return count, err
+}
+
+func UpdateComment(commentID, userID, content string) error {
+	const query = `
+	UPDATE comments
+	SET content = ?, created_at = ?
+	WHERE id = ? AND user_id = ?;
+	`
+	_, err := db.Exec(query, content, time.Now(), commentID, userID)
+	return err
+}
+
+func GetCommentByID(commentID string) (Comment, error) {
+	var comment Comment
+	err := db.QueryRow(`
+		SELECT id, post_id, content, created_at, user_id
+		FROM comments
+		WHERE id = ?
+	`, commentID).Scan(&comment.ID, &comment.PostID, &comment.Content, &comment.CreatedAt, &comment.Author)
+
+	if err != nil {
+		return comment, err
+	}
+
+	comment.CreatedAtFormatted = comment.CreatedAt.Format("02.01.2006 15:04")
+	return comment, nil
 }

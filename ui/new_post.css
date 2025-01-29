@@ -87,3 +87,27 @@ body {
     font-size: 0.8rem;
     color: #777;
 }
+
+.delete-image-container {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Adds space between the checkbox and the label */
+    margin-top: 5px; /* Adds slight spacing from the file name */
+    margin-bottom: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-layout {
+        width: 100%;
+        margin: 0;
+    }
+
+    .content {
+        width: 90%;
+    }
+
+    form {
+        min-width: 0;
+    }
+}

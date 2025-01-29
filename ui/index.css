@@ -155,6 +155,10 @@ body {
     text-decoration: underline;
 }
 
+.post img {
+    max-width: 100%;
+}
+
 .post .read-more {
     color: #0073cc;
     text-decoration: none;
@@ -162,6 +166,10 @@ body {
 
 .post-tags {
     margin-top: 10px;
+}
+
+.post .my_comment-section {
+    padding-left: 20px;
 }
 
 .admin_buttons {
@@ -209,6 +217,7 @@ body {
     color: #39739d;
     padding: 3px 8px;
     margin-right: 5px;
+    margin-bottom: 10px;
     font-size: 12px;
     border-radius: 3px;
 }
@@ -238,6 +247,16 @@ body {
 
 .dislike-button:hover img {
     transform: scale(1.1);
+}
+
+.edit-buttons {
+    float: right;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-right: 5px;
+    margin-left: 10px;
 }
 
 .back-button {
@@ -293,5 +312,14 @@ background-color: #005fa3;
     .sidebar,
     .content {
         width: 100%;
+    }
+
+    .my_content {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .sidebar {
+        position: static;
     }
 }

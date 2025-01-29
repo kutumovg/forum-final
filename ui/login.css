@@ -148,3 +148,10 @@ body {
 .back-button button:hover {
   background-color: #005fa3;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-container {
+      width: 90%;
+  }
+}

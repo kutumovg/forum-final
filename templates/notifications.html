@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/notifications.css">
+    <link rel="stylesheet" href="/ui/header.css">
+    <link rel="stylesheet" href="/ui/footer.css">
+    <link rel="icon" type="image/x-icon" href="/ui/images/favicon.png">
+    <title>Forum - Notifications</title>
+</head>
+<body>
+    <div class="page-container">
+        <header class="header">
+            <div class="container">
+                <h1><a href="/">Book Forum</a></h1>
+                <nav>
+                    {{if .LoggedIn}}
+                        <div class="header-buttons">
+                            <button onclick="window.location.href='/logout'">Logout</button>
+                        </div>
+                    {{else}}
+                        <div class="header-buttons">
+                            <button onclick="window.location.href='/login'">Login</button>
+                            <button onclick="window.location.href='/register'">Register</button>
+                        </div>
+                    {{end}}
+                </nav>
+            </div>
+        </header>
+
+        <div class="main-layout container">
+            <main class="content">
+                <h2>Notifications:</h2>
+                
+                {{if .Notification}}
+                    {{range .Notification}}   
+                    <div class="post">        
+                        <div class="{{if .IsRead}}notification-read{{else}}notification-new{{end}}">
+                            
+                            {{if .PostID}}
+                            <p>Your post <a href="{{.PostURL}}">{{.PostContent}}</a> was {{.Action}} by {{.Username}}</p>
+                            <p><small>{{.CreatedAtFormatted}}</small></p>
+                                          
+                            {{else if .CommentID}}
+                            <p>Your comment <a href="{{.PostURL}}">{{.CommentContent}}</a> was {{.Action}} by {{.Username}}</p>
+                            <p><small>{{.CreatedAtFormatted}}</small></p>
+                            {{end}}
+                            
+                        </div>  
+                    </div>                
+                    {{end}}
+                {{else}}
+                    <p>No notifications available.</p>
+                {{end}}
+
+                <div class="back-button">
+                    <button onclick="window.history.back();">Back</button>
+                </div>
+            </main>
+        </div>
+        <footer class="footer">
+            <p>&copy; 2024 Book Forum</p>
+        </footer>
+    </div>
+</body>
+</html>

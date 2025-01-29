@@ -79,6 +79,10 @@ body {
     text-decoration: none;
 }
 
+.post img {
+    max-width: 100%;
+}
+
 .post-tags {
     margin-top: 10px;
 }
@@ -89,6 +93,7 @@ body {
     color: #39739d;
     padding: 3px 8px;
     margin-right: 5px;
+    margin-bottom: 10px;
     font-size: 12px;
     border-radius: 3px;
 }
@@ -185,6 +190,16 @@ body {
     background-color: #005fa3;
 }
 
+.edit-buttons {
+    float: right;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
 /* Back Button */
 .back-button {
     display: inline-block;
@@ -205,7 +220,8 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    body {
+    .content {
         width: 100%;
+        margin-left: 0;
     }
 }

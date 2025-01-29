@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/new_post.css">
+    <link rel="stylesheet" href="/ui/header.css">
+    <link rel="stylesheet" href="/ui/footer.css">
+    <link rel="icon" type="image/x-icon" href="/ui/images/favicon.png">
+    <title>Forum - Edit Post</title>
+</head>
+<body>
+    <div class="page_container">
+        <header class="header">
+            <div class="container">
+                <h1><a href="/">Book Forum</a></h1>
+                <nav>
+                    {{if .LoggedIn}}
+                        <div class="header-buttons">
+                            <button onclick="window.location.href='/logout'">Logout</button>
+                        </div>
+                    {{else}}
+                        <div class="header-buttons">
+                            <button onclick="window.location.href='/login'">Login</button>
+                            <button onclick="window.location.href='/register'">Register</button>
+                        </div>
+                    {{end}}
+                </nav>
+            </div>
+        </header>
+        <div class="main-layout container">
+            <main class="content">  
+                <h1>Edit Post</h1>
+                <form action="/edit-post" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="post_id" value="{{.Post.ID}}">
+                    <div class="form-group">
+                        <label for="content">Content:</label>
+                        <textarea id="content" name="content" rows="10" required>{{.Post.Content}}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="categories">Choose Categories:</label>
+                        <select id="categories" name="categories" multiple required>
+                            {{range .Categories}}
+                                <option value="{{.ID}}" {{if isCategorySelected .Name $.Post.Categories}}selected{{end}}>{{.Name}} {{if .IsControversial}}(18+){{end}}</option>
+                            {{end}}
+                        </select>   
+                        <p class="form-hint">Hold down Ctrl (Cmd on Mac) to select multiple categories.</p>
+                        <p class="form-hint">Post with "18+" categories needs additional approve from Administrator.</p>
+                    </div>
+
+                    <div class="form-group">
+                        {{if .Post.ImagePath}}
+                            <p><strong>Current Image:</strong> {{.ImageDisplayName}}</p>
+                            <input type="hidden" name="existing_image" value="{{.Post.ImagePath}}">
+
+                            <div class="delete-image-container">
+                                <label for="delete_image">Check to delete current image:</label>
+                                <input type="checkbox" id="delete_image" name="delete_image">
+                            </div>
+                        {{else}}
+                            <p>No image uploaded</p>
+                        {{end}}
+                        <label for="image">Upload New Image:</label>
+                        <input type="file" name="image" accept="image/jpeg,image/png,image/gif">
+                    </div>
+                    <div class="btns">
+                        <button class="back-button" onclick="window.history.back();">Back</button>
+                        <button type="submit">Save</button>
+                    </div>
+                </form>  
+            </main>
+        </div>
+        <footer class="footer">
+            <p>&copy; 2024 Book Forum</p>
+        </footer>
+    </div>
+</body>
+</html>

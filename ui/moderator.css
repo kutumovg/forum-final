@@ -78,3 +78,14 @@ h1 {
 .application-status .btn:hover {
     background-color: #005fa3;
 }
+
+@media (max-width: 768px) {
+    .page_container {
+        width: 100%;
+    }
+
+    .main-layout {
+        background-color: #f4f4f4;
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
+    }
+}

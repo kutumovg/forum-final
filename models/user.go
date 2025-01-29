@@ -102,10 +102,10 @@ func GoogleGithubUser(id string, email string, provider string) (string, error) 
 		// User does not exist, create a new one
 		_, err = db.Exec("INSERT INTO users (id, email, username, oauth_provider) VALUES (?, ?, ?, ?)", id, email, username, provider)
 		if err != nil && provider == "google" {
-			return "", errors.New("You already registered as GitHub user with this email. Please log in with GitHub account")
+			return "", errors.New("you already registered as GitHub user with this email, please log in with GitHub account")
 		}
 		if err != nil && provider == "github" {
-			return "", errors.New("You already registered as Google user with this email. Please log in with Google account")
+			return "", errors.New("you already registered as Google user with this email, please log in with Google account")
 		}
 		if err != nil {
 			return "", err
@@ -214,4 +214,22 @@ func GetAllModeratorApplications() ([]ModeratorApplication, error) {
 		applications = append(applications, app)
 	}
 	return applications, nil
+}
+
+func GetAuthorIDByPost(postID string) (string, error) {
+	var id string
+	err := db.QueryRow("SELECT user_id FROM posts WHERE id = ?", postID).Scan(&id)
+	if err != nil {
+		return "", err
+	}
+	return id, nil
+}
+
+func GetAuthorIDByComment(commentID string) (string, error) {
+	var id string
+	err := db.QueryRow("SELECT user_id FROM comments WHERE id = ?", commentID).Scan(&id)
+	if err != nil {
+		return "", err
+	}
+	return id, nil
 }

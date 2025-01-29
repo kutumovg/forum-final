@@ -199,3 +199,15 @@ cursor: pointer;
 .back-button button:hover {
 background-color: #005fa3;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-content {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+}

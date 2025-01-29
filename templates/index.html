@@ -64,27 +64,37 @@
                                     <img src="/ui/images/liked-icon.png" alt="Liked Posts Icon"> Liked Posts
                                 </a>
                             </li>
+                            <li>
+                                <a href="/my_comments">
+                                    <img src="/ui/images/comments-icon.png" alt="My Comments Icon"> My Comments
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/notifications">
+                                    <img src="/ui/images/notifications-icon.png" alt="Notifications Icon"> Notifications ({{.NotificationCount}})
+                                </a>
+                            </li>
                             {{if not .IsAdminOrModerator}}
                             <li>
                                 <a href="/moderator">
-                                    <img src="/ui/images/new-post.png" alt="New Post Icon"> Become a Moderator
+                                    <img src="/ui/images/crown.png" alt="Application Icon"> Become a Moderator
                                 </a>
                             </li>
                             {{end}}
                             {{if .IsAdmin}}
                             <li>
                                 <a href="/admin/categories">
-                                    <img src="/ui/images/tag.png" alt="New Post Icon"> Categories
+                                    <img src="/ui/images/tag.png" alt="Tag Icon"> Categories
                                 </a>
                             </li>
                             <li>
                                 <a href="/admin/pending">
-                                    <img src="/ui/images/file.png" alt="New Post Icon"> Reports ({{.ReportCount}})
+                                    <img src="/ui/images/file.png" alt="Reports Icon"> Reports ({{.ReportCount}})
                                 </a>
                             </li>
                             <li>
                                 <a href="/users">
-                                    <img src="/ui/images/user.png" alt="New Post Icon"> Users ({{.ApplicationCount}})
+                                    <img src="/ui/images/user.png" alt="Users Icon"> Users ({{.ApplicationCount}})
                                 </a>
                             </li>
                             {{end}}
@@ -119,7 +129,7 @@
                             {{end}}
                         </div>
                         {{if $.LoggedIn}}
-                        <p>
+                        
                             <form action="/like" method="post" class="like-form">
                                 <input type="hidden" name="post_id" value="{{.ID}}">
                                 <button type="submit" class="like-button">
@@ -132,19 +142,29 @@
                                     <img src="/ui/images/thumbs-down.png" alt="Dislike">
                                 </button>
                             </form> {{.Dislikes}}
-                        </p>
+                        
                         {{else}}
                         <p><img src="/ui/images/thumbs-up.png" alt="Like"> {{.Likes}}       <img src="/ui/images/thumbs-down.png" alt="Dislike"> {{.Dislikes}}</p>
                         {{end}}
                         {{if $.IsAdminOrModerator}}
-                        <form action="/admin/delete_post" method="POST" style="display: inline;">
+                        <p><form action="/admin/delete_post" method="POST" style="display: inline;">
                             <input type="hidden" name="post_id" value="{{.ID}}">
                             <button class="admin_buttons" type="submit">Delete</button>
                         </form>
                         <form action="/admin/unapprove" method="POST" style="display: inline;">
                             <input type="hidden" name="post_id" value="{{.ID}}">
                             <button class="admin_buttons" type="submit">Report</button>
-                        </form>
+                        </form></p>
+                        {{else}}
+                            {{if eq .Author $.Username}} 
+                                <form action="/admin/delete_post" method="POST" style="display: inline;">
+                                    <input type="hidden" name="post_id" value="{{.ID}}">
+                                    <button class="edit-buttons" type="submit" onclick="return confirm('Are you sure you want to delete this post?');">
+                                        <img src="/ui/images/delete.png" alt="Delete post">
+                                    </button>
+                                </form>
+                                <a href="/edit-post?id={{.ID}}"><img src="/ui/images/edit.png" alt="Edit post" class="edit-buttons"></a>
+                            {{end}}
                         {{end}}
                         <p><a href="/post?id={{.ID}}" class="read-more">View Comments ({{.CommentCount}})</a></p>
                     </div>

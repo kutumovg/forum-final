@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ui/new_post.css">
+    <link rel="stylesheet" href="/ui/header.css">
+    <link rel="stylesheet" href="/ui/footer.css">
+    <link rel="icon" type="image/x-icon" href="/ui/images/favicon.png">
+    <title>Forum - Edit Comment</title>
+</head>
+<body>
+    <div class="page_container">
+        <header class="header">
+            <div class="container">
+                <h1><a href="/">Book Forum</a></h1>
+                <nav>
+                    {{if .LoggedIn}}
+                        <div class="header-buttons">
+                            <button onclick="window.location.href='/logout'">Logout</button>
+                        </div>
+                    {{else}}
+                        <div class="header-buttons">
+                            <button onclick="window.location.href='/login'">Login</button>
+                            <button onclick="window.location.href='/register'">Register</button>
+                        </div>
+                    {{end}}
+                </nav>
+            </div>
+        </header>
+        <div class="main-layout container">
+            <main class="content">  
+                <h1>Edit Comment</h1>
+                <form method="POST" action="/edit-comment">
+                    <input type="hidden" name="comment_id" value="{{.Comment.ID}}">
+                    <textarea name="content" rows="5" required>{{.Comment.Content}}</textarea><br>
+                    <br>
+                    <div class="btns">
+                        <button class="back-button" onclick="window.history.back();">Back</button>
+                        <button type="submit">Save</button>
+                    </div>
+                </form>
+            </main>
+        </div>
+        <footer class="footer">
+            <p>&copy; 2024 Book Forum</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -24,7 +24,8 @@ type Post struct {
 	Categories         []string
 	ImagePath          string
 	IsApproved         bool
-	CommentCount      int
+	CommentCount       int
+	Comments           []Comment
 }
 
 var db *sql.DB
@@ -51,6 +52,13 @@ func AddCategoryToPost(postID, categoryID string) error {
 	_, err := db.Exec(`
         INSERT INTO post_categories (post_id, category_id) VALUES (?, ?)
     `, postID, categoryID)
+	return err
+}
+
+func DeleteCategoriesForPost(postID string) error {
+	_, err := db.Exec(`
+        DELETE FROM post_categories WHERE post_id = ?
+    `, postID)
 	return err
 }
 
@@ -189,9 +197,9 @@ func GetFilteredPosts(loggedIn bool, userID string, categoryID int) ([]Post, err
 		post.Categories = categories
 
 		post.CommentCount, err = GetCommentCount(post.ID)
-        if err != nil {
-            return nil, err
-        }
+		if err != nil {
+			return nil, err
+		}
 
 		posts = append(posts, post)
 	}
@@ -262,9 +270,9 @@ func GetPostsByUser(userID string) ([]Post, error) {
 		post.Categories = categories
 
 		post.CommentCount, err = GetCommentCount(post.ID)
-        if err != nil {
-            return nil, err
-        }
+		if err != nil {
+			return nil, err
+		}
 
 		post.CreatedAtFormatted = createdAt.Format("02.01.2006 15:04")
 		posts = append(posts, post)
@@ -306,10 +314,10 @@ func GetLikedPostsByUser(userID string) ([]Post, error) {
 		post.Categories = categories
 
 		post.CommentCount, err = GetCommentCount(post.ID)
-        if err != nil {
-            return nil, err
-        }
-		
+		if err != nil {
+			return nil, err
+		}
+
 		post.CreatedAtFormatted = createdAt.Format("02.01.2006 15:04")
 		posts = append(posts, post)
 	}
@@ -391,10 +399,35 @@ func DeletePost(postID string) error {
 		return err
 	}
 
+	_, err = tx.Exec("DELETE FROM comments WHERE post_id = ?", postID)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
 	// Commit the transaction
 	if err = tx.Commit(); err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func GetPostIDByCommentID(commentID string) (string, error) {
+	var postID string
+	err := db.QueryRow("SELECT post_id FROM comments WHERE id = ?", commentID).Scan(&postID)
+	if err != nil {
+		return "", err
+	}
+	return postID, nil
+}
+
+func EditPost(userID, postID, content, imagePath string, isApproved bool) error {
+	const query = `
+	UPDATE posts
+	SET content = ?, image_path = ?, created_at = ?, is_approved = ?
+	WHERE id = ? AND user_id = ?;
+	`
+	_, err := db.Exec(query, content, imagePath, time.Now(), isApproved, postID, userID)
+	return err
 }

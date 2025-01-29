@@ -50,6 +50,7 @@ func createTables(db *sql.DB) {
         user_id TEXT,
         post_id TEXT,
         is_like BOOLEAN,
+		created_at DATETIME,
         FOREIGN KEY (user_id) REFERENCES users(id),
         FOREIGN KEY (post_id) REFERENCES posts(id),
         UNIQUE (user_id, post_id)
@@ -74,6 +75,7 @@ func createTables(db *sql.DB) {
         user_id TEXT,
         comment_id TEXT,
         is_like BOOLEAN,
+		created_at DATETIME,
         FOREIGN KEY (user_id) REFERENCES users(id),
         FOREIGN KEY (comment_id) REFERENCES comments(id),
         UNIQUE (user_id, comment_id)
@@ -93,6 +95,25 @@ func createTables(db *sql.DB) {
 		FOREIGN KEY (post_id) REFERENCES posts(id),
 		FOREIGN KEY (category_id) REFERENCES categories(id)
 	);`
+
+	createNotificationsTable := `
+	CREATE TABLE IF NOT EXISTS notifications (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+	author_id TEXT NOT NULL,
+    user_id TEXT NOT NULL,
+    post_id TEXT,
+    comment_id TEXT,
+    action TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+	is_read BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY(user_id) REFERENCES users(id),
+    FOREIGN KEY(post_id) REFERENCES posts(id),
+    FOREIGN KEY(comment_id) REFERENCES comments(id)
+	);
+	CREATE INDEX IF NOT EXISTS idx_notifications_user_id ON notifications (user_id);
+	CREATE INDEX IF NOT EXISTS idx_notifications_created_at ON notifications (created_at);
+	`
+
 	// Execute the table creation commands
 	_, err := db.Exec(createUsersTable)
 	if err != nil {
@@ -130,7 +151,10 @@ func createTables(db *sql.DB) {
 		log.Fatal(err)
 	}
 
-	// seedData(db)
+	_, err = db.Exec(createNotificationsTable)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 // seedCategories inserts default categories into the categories table.
