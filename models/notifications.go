@@ -23,7 +23,8 @@ type Notification struct {
 
 // AddNotification creates a new notification in the database
 func AddNotification(userID string, authorID string, postID, commentID *string, action string) error {
-	_, err := db.Exec("INSERT INTO notifications (user_id, author_id, post_id, comment_id, action, created_at) VALUES (?, ?, ?, ?, ?, ?)", userID, authorID, postID, commentID, action, time.Now())
+	time := GetLocalTime()
+	_, err := db.Exec("INSERT INTO notifications (user_id, author_id, post_id, comment_id, action, created_at) VALUES (?, ?, ?, ?, ?, ?)", userID, authorID, postID, commentID, action, time)
 	return err
 }
 
