@@ -434,6 +434,7 @@ func EditPost(userID, postID, content, imagePath string, isApproved bool) error 
 	SET content = ?, image_path = ?, created_at = ?, is_approved = ?
 	WHERE id = ? AND user_id = ?;
 	`
-	_, err := db.Exec(query, content, imagePath, time.Now(), isApproved, postID, userID)
+	time := GetLocalTime()
+	_, err := db.Exec(query, content, imagePath, time, isApproved, postID, userID)
 	return err
 }
