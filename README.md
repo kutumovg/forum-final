@@ -1,5 +1,7 @@
 # Forum Final
-This project contains all side projects: security, moderation, image-upload, authentication, audit and advanced-features.
+Forum is a web-based forum designed to facilitate user communication, enable categorization of posts, allow users to like and dislike posts and comments, and provide filtering options for posts. It supports user registration, post creation, comments, likes, categories, and notifications. The project includes a role system (admin, moderator, user) and spam protection.
+This project contains all side projects of initial Forum project: security, moderation, image-upload, authentication, audit and advanced-features. 
+The project is integrated with a CI/CD pipeline for automated builds and deployments. It is hosted on AWS and available at https://forum.qarjy.kz.
 
 ## Objectives
 
@@ -16,8 +18,6 @@ This project contains all side projects: security, moderation, image-upload, aut
     <li>Moderator that approves posted messages before they become publicly visible</li>
     <li>Administrator promotes or demotes a normal user to, or from a moderator user, receive reports from moderators, can delete posts and comments of other users, manage the categories, by being able to create and delete them.</li>
     <li>Filtering is done depending on the categories of the post being sorted by irrelevant, obscene, illegal or insulting.</li>
-    
-
 </ul>
 
 ## User Authentication
