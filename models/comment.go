@@ -49,8 +49,9 @@ func CreateComment(postID, userID, content string) error {
 		return err
 	}
 
+	time := GetLocalTime()
 	_, err = db.Exec("INSERT INTO comments (id, post_id, user_id, content, created_at) VALUES (?, ?, ?, ?, ?)",
-		commentID.String(), postID, userID, content, time.Now())
+		commentID.String(), postID, userID, content, time)
 	if err != nil {
 		return err
 	}
