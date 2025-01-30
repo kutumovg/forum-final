@@ -263,7 +263,8 @@ func UpdateComment(commentID, userID, content string) error {
 	SET content = ?, created_at = ?
 	WHERE id = ? AND user_id = ?;
 	`
-	_, err := db.Exec(query, content, time.Now(), commentID, userID)
+	time := GetLocalTime()
+	_, err := db.Exec(query, content, time, commentID, userID)
 	return err
 }
 
