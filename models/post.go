@@ -35,6 +35,11 @@ func SetDB(database *sql.DB) {
 	db = database
 }
 
+func GetLocalTime() time.Time {
+	loc, _ := time.LoadLocation("Asia/Almaty") // Change this to your preferred timezone
+	return time.Now().In(loc)
+}
+
 // CreatePost inserts a new post into the database with a unique ID, user ID, and content.
 func CreatePost(userID, content string, imagePath string, isApproved bool) (string, error) {
 	postID, err := uuid.NewV4()
@@ -42,8 +47,9 @@ func CreatePost(userID, content string, imagePath string, isApproved bool) (stri
 		return "", err
 	}
 
+	time := GetLocalTime()
 	_, err = db.Exec("INSERT INTO posts (id, user_id, content, created_at, image_path, is_approved) VALUES (?, ?, ?, ?, ?, ?)",
-		postID.String(), userID, content, time.Now(), imagePath, isApproved)
+		postID.String(), userID, content, time, imagePath, isApproved)
 	return postID.String(), err
 }
 
