@@ -50,8 +50,9 @@ func RegisterUser(email, username, password string) (string, error) {
 		return "", err
 	}
 
-	_, err = db.Exec("INSERT INTO users (id, email, username, password, session_token) VALUES (?, ?, ?, ?, ?)",
-		userID.String(), email, username, hashedPassword, sessionToken.String())
+	role := "User"
+	_, err = db.Exec("INSERT INTO users (id, email, username, password, session_token, role) VALUES (?, ?, ?, ?, ?, ?)",
+		userID.String(), email, username, hashedPassword, sessionToken.String(), role)
 	return sessionToken.String(), err
 }
 
