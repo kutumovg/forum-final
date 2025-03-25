@@ -1,7 +1,6 @@
 # Forum Final
 Forum is a web-based forum designed to facilitate user communication, enable categorization of posts, allow users to like and dislike posts and comments, and provide filtering options for posts. It supports user registration, post creation, comments, likes, categories, and notifications. The project includes a role system (admin, moderator, user) and spam protection.
 This project contains all side projects of initial Forum project: security, moderation, image-upload, authentication, audit and advanced-features. 
-The project is integrated with a CI/CD pipeline for automated builds and deployments. It is hosted on AWS and available at https://forum.qarjy.kz.
 
 ## Objectives
 
